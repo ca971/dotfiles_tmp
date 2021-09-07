@@ -37,7 +37,7 @@ function cleanup {
 }
 trap cleanup EXIT
 
-}
+
 function init_do() {
   e_header "Sourcing $(basename "$2")"
   source "$2"
