@@ -30,6 +30,12 @@
 [pull]
 	default = simple
 
+[status]
+	submoduleSummary = true
+
+[diff]
+	submodule = log
+
 [rerere]
 	enabled = true
 
