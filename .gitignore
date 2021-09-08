@@ -2,7 +2,7 @@
 /backups/
 
 # REMOVE /link/.ssh AFTER TESTING
-/link/.ssh
+/link/.ssh/
 
 # Top secret stuff!
 /link/.ssh/id_*
