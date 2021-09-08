@@ -28,3 +28,6 @@
 [submodule "link/.rbenv/plugins/rbenv-each"]
 	path = link/.rbenv/plugins/rbenv-each
 	url = https://github.com/rbenv/rbenv-each.git
+[submodule "link/.rbenv/plugins/rbenv-gemset"]
+	path = link/.rbenv/plugins/rbenv-gemset
+	url = https://github.com/jf/rbenv-gemset.git
