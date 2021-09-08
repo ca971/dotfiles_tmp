@@ -1,6 +1,9 @@
 /caches/
 /backups/
 
+# REMOVE /link/.ssh AFTER TESTING
+/link/.ssh
+
 # Top secret stuff!
 /link/.ssh/id_*
 /link/.ssh/*.pem
