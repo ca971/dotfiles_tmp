@@ -42,52 +42,128 @@
 [alias]
 	name = config --get user.name
 	email = config --get user.email
-	a = add .
-	alias = config --global -l
-	ba = branch -a
+
+	# Alias
+	alias = ! git config --get-regexp ^alias\\. | sed -e s/^alias\\.// -e s/\\ /\\ =\\ /
+
+	# Add
+	a = add
+	aa = add --all
+
+	# Branches
+	bra = branch -a
 	br = branch
-	branches = branch -a
+	rv = remote -v # Remote branches
+
+	# Lister les branches et leur auteur associé
+	list-branch = "! git for-each-ref --format=' %(authorname) %09 %(refname)' --sort=authorname"
+
+	# Rename a branch : git rename feature-super-orthographe
+	rename  = "!f() { branch_name=$(git rev-parse --abbrev-ref HEAD); git branch -m $1; git push origin $1; git push origin --delete $branch_name; }; f"
+
+	# L’alias goto, où comment se déplacer entre les branches facilement
+	# Vous êtes entrain de travailler sur une 'feature', il faut vite fixer un bug
+	# Il faut reset les fichiers et checkout sur la nouvelle branche, exmple : $>git goto develop
+	#
+	# git reset –hard, va permettre de supprimer tous les changements fait sur les fichiers locaux
+	# git clean -fd, va supprimer tous les fichiers et dossiers non versionnés par git
+	# git checkout ${1-master}, si aucun argument n’est fourni va checkout sur master sinon, va prendre checkout sur la branche passée en paramètre.
+	goto = "!f() { git reset --hard && git clean -fd && git checkout ${1-master}; }; f"
+
+	# Nettoyer les branches inutiles, une fois les merges terminées
+	#removeorphansbranches = "!git branch --merged | grep -v '\*' | grep -v master | grep -v dev | xargs -n 1 git branch -d"
+
+	# Commit
 	ci = commit
-	cia = commit --amend
+	editlast = commit --amend # Modifier le message du dernier commit
 	cim = commit -m
 	civ = commit -v
-	co = checkout
-	cob = checkout -b
-	cp = cherry-pick
-	config-to-push-all-branches = config --add remote.origin.push '+refs/heads/*:refs/heads/*'
-	config-to-push-all-tags = config --add remote.origin.push '+refs/tags/*:refs/tags/*'
-	d = diff
-	dc = diff --cached
-	diffc = diff --cached
-	dv = difftool -t vimdiff -y
-	forkup = pull --rebase upstream
+	uncommit =  reset --soft HEAD^ # Déplacer le HEAD jusqu'à l'avant-dernier commit sans
+	rewind-one = reset --hard HEAD^
+	undo = reset --mixed HEAD^
+	#undo = reset HEAD~
+	unstage = reset HEAD
+	commitstoday = log --author=\"`git config user.name`\" --since=\"6am\"
+	commitslastmonth = ! git log --author=\"`git config user.name`\" --before={`date "+%Y-%m-01"`} --after={`date --date=\"$(date +%Y-%m-1) -1 month\" \"+%Y-%m-01\"`} --reverse --pretty=format:\"%cd %h  %s\" --date=short
+  commitsthismonth = ! git log --author=\"`git config user.name`\" --before=now --after={`date "+%Y-%m-1"`} --reverse --pretty=format:\"%cd %h  %s\" --date=short
+	total-commits = ! git log --all --pretty=oneline | wc -l
+
+
+	# Diff
+	df = diff
+	dff = diff --name-only
+	dfc = diff --cached
+	today = diff --stat 'HEAD@{midnight}'
+	yesterday = diff --stat 'HEAD@{yesterday}' 'HEAD@{midnight}'
+
 	h = stash
 	hs = stash save
-	last = log -1 HEAD --stat
 	latest = for-each-ref --sort=committerdate refs/heads/ --format='%(committerdate:short) %(refname:short)'
-	l = log --oneline --decorate -10 --pretty=format:'%C(yellow)%h%C(reset)%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
-	ll = log --oneline --decorate --pretty=format:'%C(yellow)%h%C(reset)%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
-	ls = ls-files
+
+	# Log
+	last = log -1 HEAD --stat # Last commit log
+	logn = log --max-count # To see the last x number of commits
+	wc="shortlog -s -n"
+	tree = log --graph --oneline --all
+	l1 = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
+  l2 = log --graph --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(bold white)— %an%C(reset)%C(bold yellow)%d%C(reset)' --abbrev-commit --date=relative
+	lstat = log --color --graph --stat --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+  l = !"git l1"
+
+	# Move
+	co = checkout
+	cob = checkout -b
+
+	# List of files
+	ls = ls-files -s
+
+	# Pull
+	po= !"git pull origin"
+	pull-master = !"git pull origin master"
+	pull-dev = !"git pull origin develop"
+	pull-rebase = !"git pull --rebase origin"
+	pull-rebase-upstream = !"git pull --rebase upstream"
+
+	# Push
 	p = push
-	r = remote
-	rb = rebase
-	rl = reflog
-	rv = remote -v
-	rewind-one = reset --hard HEAD^
+	config-to-push-all-branches = config --add remote.origin.push '+refs/heads/*:refs/heads/*'
+
+	# Rebase
+	rb  = rebase
+	rba = rebase --abort
+	rbc = rebase --continue
+	rbs = rebase --skip
+
+	# Submodules
+	subpath = ! git config --file .gitmodules --name-only --get-regexp path # List submodules path and name
+	subname = ! git config --file .gitmodules --get-regexp path | awk '{ print $2 }' # List submodules name only
+
+	# Status
 	s = status
-	sb = status -sb
-	se = !git rev-list --all | xargs git grep -F
-	st = status
-	sta = stash
+	sb = status -sb # status --short --branch
+	ss = status -s # status --short
+
+	# Tags
+	config-to-push-all-tags = config --add remote.origin.push '+refs/tags/*:refs/tags/*'
+	rtag = "!sh -c 'set -e;git tag $2 $1; git tag -d $1;git push origin :refs/tags/$1;git push --tags' -"
+
+	# Divers
+	# Lister tous les fichiers contenant le mot-clé « TODO » ou « FIXME » dans le projet
+	todo = ! git grep --extended-regexp -I --line-number --break --heading --color=auto 'TODO|FIXME'
+
+	# Afficher uniquement les fichiers concernés, ainsi que le nombre de TODO dans un fichier
+	todo-list = ! git grep --extended-regexp -I --line-number --count 'TODO|FIXME'
+
+	cp = cherry-pick
+
+	# Svn
 	svnci = svn dcommit
 	svnprep = rebase -i git-svn
 	svnup = svn rebase
-	today = diff --stat 'HEAD@{midnight}'
-	tree = log --graph --oneline --all
-	undo = reset --mixed HEAD^
-	unstage = reset HEAD
-	up = pull --rebase origin
-	yesterday = diff --stat 'HEAD@{yesterday}' 'HEAD@{midnight}'
+
+
+	se = !git rev-list --all | xargs git grep -F
+	sta = stash
 
 [color]
 	diff = auto

@@ -22,3 +22,6 @@
 [submodule "link/.rbenv/plugins/rbenv-update"]
 	path = link/.rbenv/plugins/rbenv-update
 	url = https://github.com/rkh/rbenv-update.git
+[submodule "link/.rbenv/plugins/rbenv-bundler"]
+	path = link/.rbenv/plugins/rbenv-bundler
+	url = https://github.com/carsomyr/rbenv-bundler.git
