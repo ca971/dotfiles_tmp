@@ -13,3 +13,6 @@
 [submodule "link/.rbenv/plugins/rbenv-gem-rehash"]
 	path = link/.rbenv/plugins/rbenv-gem-rehash
 	url = https://github.com/sstephenson/rbenv-gem-rehash.git
+[submodule "link/.rbenv/plugins/rbenv-whatis"]
+	path = link/.rbenv/plugins/rbenv-whatis
+	url = https://github.com/rkh/rbenv-whatis.git
