@@ -16,3 +16,6 @@
 [submodule "link/.rbenv/plugins/rbenv-whatis"]
 	path = link/.rbenv/plugins/rbenv-whatis
 	url = https://github.com/rkh/rbenv-whatis.git
+[submodule "link/.rbenv/plugins/rbenv-use"]
+	path = link/.rbenv/plugins/rbenv-use
+	url = https://github.com/rkh/rbenv-use.git
