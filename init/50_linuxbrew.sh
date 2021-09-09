@@ -1,2 +1,5 @@
+# Initialize rbenv.
+source $DOTFILES/source/50_linuxbrew.sh
+
 # Install linuxbrew
-test -d ~/.linuxbrew || bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+[ -d "~/.linuxbrew" ] || bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
