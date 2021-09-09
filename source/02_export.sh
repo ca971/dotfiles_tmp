@@ -18,24 +18,8 @@ command -v exa &>/dev/null && \
 
 # Pager
 # =============================================================================
-if command -v most &>/dev/null; then
+command -v most &>/dev/null && \
   export PAGER='most'
-else
-  export PAGER='less'
-  export LESSCHARSET="UTF-8"
-  export LESSHISTFILE='-'
-  export LESSEDIT='vim ?lm+%lm. %f'
-  export LESS='-F -g -i -M -R -S -w -X -z-4'
-fi
-
-# Highlight section titles in manual pages.
-export LESS_TERMCAP_mb=$'\e[01;31m'      # begin blinking
-export LESS_TERMCAP_md=$'\e[01;31m'      # begin bold
-export LESS_TERMCAP_me=$'\e[0m'          # end mode
-export LESS_TERMCAP_se=$'\e[0m'          # end standout-mode
-export LESS_TERMCAP_so=$'\e[00;47;30m'   # begin standout-mode
-export LESS_TERMCAP_ue=$'\e[0m'          # end underline
-export LESS_TERMCAP_us=$'\e[01;32m'      # begin underline
 
 # Pyenv
 # =============================================================================
