@@ -40,3 +40,6 @@
 [submodule "link/.tmux/plugins/tpm"]
 	path = link/.tmux/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm.git
+[submodule "vendor/fasd"]
+	path = vendor/fasd
+	url = https://github.com/clvv/fasd.git
