@@ -23,7 +23,7 @@
 /link/.rbenv/version
 
 # Don't commit tmux plugins, tpm will install them.
-/link/.tmux/plugins
+#/link/.tmux/plugins
 
 # Don't commit tmux resurrect state.
 /link/.tmux/resurrect

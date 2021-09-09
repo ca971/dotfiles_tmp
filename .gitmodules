@@ -37,3 +37,6 @@
 [submodule "vendor/asdf"]
 	path = vendor/asdf
 	url = https://github.com/asdf-vm/asdf.git
+[submodule "link/.tmux/plugins/tpm"]
+	path = link/.tmux/plugins/tpm
+	url = https://github.com/tmux-plugins/tpm.git
