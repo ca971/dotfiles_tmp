@@ -1,9 +1,7 @@
 # Shortcuts
 # =============================================================================
-alias cc='code'
 alias q='exit' # function exit()
 alias e='vi'
-command -v nvim > /dev/null && alias v='$EDITOR' || alias v='vi'
 alias b='subl'
 alias c='clear'  # To clear in iterm : <C-l>
 alias g='git'
