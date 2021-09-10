@@ -1,1 +1,1 @@
-. $DOTFILES/vendor/asdf/asdf.sh
+[ -d "~/.asdf" ] && . ~/.asdf/asdf.sh || . $DOTFILES/link/.asdf/asdf.sh
