@@ -1,11 +1,8 @@
-export PATH
+[[ "$1" != init && ! -e ~/.pyenv ]] && return 1
 
 # pyenv init.
-PATH="$(path_remove $DOTFILES/vendor/pyenv/bin):$DOTFILES/vendor/pyenv/bin"
+export PYENV_ROOT=~/.pyenv
+grep --silent "$PYENV_ROOT/bin" <<< $PATH || export PATH="$PYENV_ROOT/bin:$PATH"
 
-if [[ "$(type -P pyenv)" ]] ; then
-  eval "$(pyenv init -)"
-
-  # pyenv-virtualenv: https://github.com/pyenv/pyenv-virtualenv
-  command -v pyenv-virtualenv-init > /dev/null && eval "$(pyenv virtualenv-init -)"
-fi
+[[ "$(type -P pyenv)" ]] && eval "$(pyenv init -)"
+command -v pyenv-virtualenv-init > /dev/null && eval "$(pyenv virtualenv-init -)"

@@ -1,9 +1,9 @@
 # Initialize rbenv.
-source $DOTFILES/source/80_ruby.sh
+source $DOTFILES/source/50_ruby.sh
 
 # Install Ruby.
 if [[ "$(type -P rbenv)" ]]; then
-  versions=(2.7.4)
+  versions=(3.0.2)
 
   rubies=($(setdiff "${versions[*]}" "$(rbenv whence ruby)"))
   if (( ${#rubies[@]} > 0 )); then

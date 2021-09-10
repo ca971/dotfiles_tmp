@@ -1,6 +1,6 @@
-export PATH
+[[ "$1" != init && ! -e ~/.homebrew ]] && return 1
 
-grep --silent "~/.homebrew/bin" <<< $PATH || export PATH="/bin:$PATH"
+grep --silent "~/.homebrew/bin" <<< $PATH || export PATH="~/.homebrew/bin:$PATH"
 
 # Homebrew on home
 # ----------------------------------------------------------------------------

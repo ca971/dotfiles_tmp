@@ -12,6 +12,9 @@
 # Don't commit Vim plugins, vim-plug will install them.
 /link/.vim/plugged
 
+# Don't commit Vim cache
+/link/.vim/.cache
+
 # Don't commit pyenv temp files.
 /link/.pyenv/shims/
 /link/.pyenv/versions/

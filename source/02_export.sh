@@ -19,20 +19,7 @@ command -v exa &>/dev/null && \
 # Pager
 # =============================================================================
 command -v most &>/dev/null && \
-  export PAGER='most'
-
-# Pyenv
-# =============================================================================
-# pyenv-virtualenv: prompt changing will be removed from future release
-if command -v pyenv > /dev/null; then
-  export PYENV_ROOT="~/.pyenv"
-fi
-
-# Rbenv
-# =============================================================================
-if command -v rbenv > /dev/null; then
-  export RBENV_ROOT="~/.rbenv"
-fi
+  export MANPAGER='most'
 
 # SSH
 # =============================================================================

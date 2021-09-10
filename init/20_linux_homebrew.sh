@@ -1,5 +1,5 @@
 # Source Homebrew
-source $DOTFILES/source/60_homebrew.sh
+source $DOTFILES/source/50_linux_homebrew.sh
 
 #eval $(~/.homebrew/bin/brew shellenv)
 
