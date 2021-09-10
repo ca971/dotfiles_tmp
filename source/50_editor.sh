@@ -1,4 +1,4 @@
-command -v vim && export VISUAL=vim
+command -v vim > /dev/null && export VISUAL=vim
 
 # If nvim is installed, use it instead of native vim
 if [[ "$(which nvim)" ]]; then

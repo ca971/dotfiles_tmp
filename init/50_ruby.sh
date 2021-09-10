@@ -1,6 +1,13 @@
 # Initialize rbenv.
 source $DOTFILES/source/50_ruby.sh
 
+# Install rbenv
+if [[ ! "~/.rbenv" ]]; then
+  curl -fsSL https://github.com/rbenv/rbenv-installer/raw/HEAD/bin/rbenv-installer | bash
+fi
+
+grep --silent "~/.rbenv/bin" <<< $PATH || export PATH="~/.rbenv/bin:$PATH"
+
 # Install Ruby.
 if [[ "$(type -P rbenv)" ]]; then
   versions=(3.0.2)

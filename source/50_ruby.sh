@@ -1,10 +1,8 @@
-[[ "$1" != init && ! -e ~/.rbenv ]] && return 1
-
 export PATH
 
 # pyenv init.
-export RBENV_ROOT=~/.rbenv
-grep --silent "$RBENV_ROOT/bin" <<< $PATH || export PATH="$RBENV_ROOT/bin:$PATH"
+export RBENV_ROOT="~/.rbenv"
+#grep --silent "$RBENV_ROOT/bin" <<< $PATH || export PATH="$RBENV_ROOT/bin:$PATH"
 
 if [[ -e /etc/profile.d/rvm.sh ]]; then
   # rvm init

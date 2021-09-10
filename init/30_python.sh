@@ -1,12 +1,12 @@
 # Initialize pyenv.
 source $DOTFILES/source/50_python.sh
 
-# Install volta if necessary
+# Install pyenv
 if [[ ! "~/.pyenv" ]]; then
   curl https://pyenv.run | bash
-  export PYENV_ROOT="~/.pyenv"
-  grep --silent "$PYENV_ROOT/bin" <<< $PATH || export PATH="$PYENV_ROOT/bin:$PATH"
 fi
+
+grep --silent "~/.pyenv/bin" <<< $PATH || export PATH="~/.pyenv/bin:$PATH"
 
 # Install Python
 if [[ "$(type -P pyenv)" ]]; then
