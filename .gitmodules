@@ -7,3 +7,6 @@
 [submodule "link/.pyenv"]
 	path = link/.pyenv
 	url = https://github.com/pyenv/pyenv.git
+[submodule "link/.rbenv"]
+	path = link/.rbenv
+	url = https://github.com/rbenv/rbenv.git
