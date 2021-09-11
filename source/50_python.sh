@@ -1,7 +1,7 @@
 export PATH
 
 # pyenv init.
-  PATH="$(path_remove $DOTFILES/link/.pyenv/bin):$DOTFILES/link/.pyenv/bin"
+  PATH="$(path_remove $HOME/.pyenv/bin):$HOME/.pyenv/bin"
 
   if [[ "$(type -P pyenv)" ]]; then
     eval "$(pyenv init -)"
