@@ -1,5 +1,5 @@
 # Initialize pyenv.
-source $DOTFILES/source/50_pyenv.sh
+source $DOTFILES/source/50_python.sh
 
 # Install pyenv.
 if [[ "$(type -P pyenv)" ]]; then
