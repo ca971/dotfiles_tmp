@@ -47,10 +47,6 @@ if executable('node')
     let g:coc_node_path = $VOLTA_BIN_NODE
   endif
 endif
-
-if executable('node')
-  let g:coc_node_path = $HOME . '/.nvm/bin/node'
-endif
 "}}}
 " Functions"{{{
 " function! source_file_if_exists(file)"{{{
