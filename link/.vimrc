@@ -20,32 +20,32 @@ endif
 "}}}
 " Variables{{{
 " Python 3
-if executable('pyenv')
-  let g:python3_host_prog = system('pyenv which python3')
-else
-  let g:python3_host_prog = system('which python3')
-endif
-
-" Ruby
-if executable('rbenv')
-  let g:ruby_host_prog = system('rbenv which ruby')
-else
-  let g:ruby_host_prog = system('which ruby')
-endif
-
-" Perl
-if executable('perl')
-  let g:perl_host_prog = system('which perl')
-endif
-
-" NodeJs for Coc.nvim
-if executable('nvm')
-  let g:coc_node_path = system('nvm which node')
-elseif executable('volta')
-  let g:coc_node_path = system('volta which node')
-else
-  let g:coc_node_path = system('which node')
-endif
+"if executable('pyenv')
+"  let g:python3_host_prog = system('pyenv which python3')
+"else
+"  let g:python3_host_prog = system('which python3')
+"endif
+"
+"" Ruby
+"if executable('rbenv')
+"  let g:ruby_host_prog = system('rbenv which ruby')
+"else
+"  let g:ruby_host_prog = system('which ruby')
+"endif
+"
+"" Perl
+"if executable('perl')
+"  let g:perl_host_prog = system('which perl')
+"endif
+"
+"" NodeJs for Coc.nvim
+"if executable('nvm')
+"  let g:coc_node_path = system('nvm which node')
+"elseif executable('volta')
+"  let g:coc_node_path = system('volta which node')
+"else
+"  let g:coc_node_path = system('which node')
+"endif
 "}}}
 " Functions"{{{
 " function! source_file_if_exists(file)"{{{
