@@ -39,13 +39,7 @@ if executable('perl')
 endif
 
 " NodeJs for Coc.nvim
-if executable('nvm')
-  let g:coc_node_path = system('nvm which node')
-elseif executable('volta')
-  let g:coc_node_path = system('volta which node')
-else
-  let g:coc_node_path = system('which node')
-endif
+let g:coc_node_path = $HOME . '/.volta/bin/node'
 "}}}
 " Functions"{{{
 " function! source_file_if_exists(file)"{{{
