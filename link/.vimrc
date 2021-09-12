@@ -22,10 +22,8 @@ endif
 " Python 3
 if executable('pyenv')
   let g:python3_host_prog = system('pyenv which python3')
-  let g:python3_host_prog = system('pyenv which python2')
 else
   let g:python3_host_prog = system('which python3')
-  let g:python3_host_prog = system('which python2')
 endif
 
 " Ruby
@@ -261,7 +259,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes' " Lean & mean status/tabline
   Plug 'ryanoasis/vim-devicons' " Add icons to plugins
   Plug 'neoclide/coc.nvim', { 'branch': 'release' } " Coc Explorer
-  if ! executable('fzf')
+  if !executable('fzf')
     Plug 'junegunn/fzf', {
           \ 'dir': '~/.fzf',
           \ 'do': './install --all --no-update-rc',
