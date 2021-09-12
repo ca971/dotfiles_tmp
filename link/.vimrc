@@ -261,10 +261,12 @@ call plug#begin('~/.vim/plugged')
   Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes' " Lean & mean status/tabline
   Plug 'ryanoasis/vim-devicons' " Add icons to plugins
   Plug 'neoclide/coc.nvim', { 'branch': 'release' } " Coc Explorer
-  Plug 'junegunn/fzf', {
-        \ 'dir': '~/.fzf',
-        \ 'do': './install --all --no-update-rc',
-        \}
+  if ! executable('fzf')
+    Plug 'junegunn/fzf', {
+          \ 'dir': '~/.fzf',
+          \ 'do': './install --all --no-update-rc',
+          \}
+  endif
   Plug 'junegunn/fzf.vim' " Search faster
   Plug 'tpope/vim-eunuch' " UNIX shell commands in Vim
   Plug 'preservim/nerdtree' " File system explorer for the Vim editor
