@@ -12,7 +12,9 @@ if [[ ! "$VOLTA_HOME" ]]; then
   for v in ${modules[@]}
   do
     volta install $v
-    export VOLTA_BIN_${v^^}="$(volta which $v)"
   done
 fi
+
+export VOLTA_BIN_NODE="$(volta which node)"
+
 unset v modules
