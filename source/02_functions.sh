@@ -331,161 +331,163 @@ function docker_clean() {
   docker volume prune
 }
 
-# Docker machine
-# =============================================================================
-function docker-machine-size() {
-  (cd  ~/.docker/machine/machines; du -d1 -h .)
-}
+if is_windows; then
 
-function docker-machine-active() {
-  if [ -z "$DOCKER_HOST" ]; then
-    echo "Docker Toolbox environment not initialized, trying to infer running machines"
-    echo ""
-    docker-machine ls 2>/dev/null | grep "Running"
-    echo ""
-    echo "Please run "
-    echo "  docker-machine-create   : creates a new docker machine hosted in Virtualbox"
-    echo "  docker-machine-init      : initializes the Docker Toolbox"
-    return
-  fi
+  # Docker machine
+  # =============================================================================
+  function docker-machine-size() {
+    (cd  ~/.docker/machine/machines; du -d1 -h .)
+  }
 
-  docker-machine active 2>/dev/null
-}
-
-function docker-machine-create() {
-  machine=${1:-default}
-
-  if [ -z $machine ]; then
-    echo "No machine name specified, exiting..."
-    return
-  fi
-
-  echo "Creating new machine $machine"
-  docker-machine create -d virtualbox $machine
-}
-
-function docker-machine-rm() {
-  machine=${1:-default}
-
-  if [ -z "$machine" ]; then
-    echo "No docker machine specified"
-    machine=$DOCKER_MACHINE_NAME
-    if [ -z "$machine" ]; then
-      echo "Did not find any default machine, exiting..."
+  function docker-machine-active() {
+    if [ -z "$DOCKER_HOST" ]; then
+      echo "Docker Toolbox environment not initialized, trying to infer running machines"
+      echo ""
+      docker-machine ls 2>/dev/null | grep "Running"
+      echo ""
+      echo "Please run "
+      echo "  docker-machine-create   : creates a new docker machine hosted in Virtualbox"
+      echo "  docker-machine-init      : initializes the Docker Toolbox"
       return
     fi
-    echo "Will stop default machine"
-  fi
 
-  read -p "Remove machine $machine [y|(n)]: " answer
-  if [ -z "$answer" ] || [ "$answer" != "y" ]
-  then
-    echo "No, all right, exiting with removing..."
-    return
-  fi
+    docker-machine active 2>/dev/null
+  }
 
-  echo "Removing machine $machine"
-  docker-machine rm $machine
-}
+  function docker-machine-create() {
+    machine=${1:-default}
 
-function docker-machine-stop() {
-  machine=${1:-default}
-
-  if [ -z "$machine" ]; then
-    echo "No docker machine specified"
-    machine=$DOCKER_MACHINE_NAME
-    if [ -z "$machine" ]; then
-      echo "Did not find any default machine, exiting..."
+    if [ -z $machine ]; then
+      echo "No machine name specified, exiting..."
       return
     fi
-    echo "Will stop default machine"
-  fi
 
-  echo "Stopping machine $machine"
-  docker-machine stop $machine
-}
+    echo "Creating new machine $machine"
+    docker-machine create -d virtualbox $machine
+  }
 
-function docker-machine-start() {
-  machine=${1:-default}
+  function docker-machine-rm() {
+    machine=${1:-default}
 
-  if [ -z "$machine" ]; then
-    echo "No docker machine specified, please try again..."
-    docker-machine-ls
-    return
-  fi
-
-  echo "Starting machine $machine ..."
-  docker-machine start $machine
-}
-
-# Initialize the Windows Docker Toolbox environment
-#   - autmatically detects the running docker machine
-function docker-machine-init() {
-  machine=${1:-default}
-  if [ -z "$machine" ]; then
-    echo "No docker machine specified, looking for a machine currently running..."
-    eval machine="$(docker-machine ls --filter state=Running | grep Running |  cut -f 1 -d ' ')"
     if [ -z "$machine" ]; then
-      echo "No docker machine is currently running"
-      echo "You may "
-      echo "   docker-machine-ls          : list existing machines"
-      echo "   docker-machine-create      : create a new docker machine"
-      echo "   docker-machine-start       : start an existing docker maxchine"
+      echo "No docker machine specified"
+      machine=$DOCKER_MACHINE_NAME
+      if [ -z "$machine" ]; then
+        echo "Did not find any default machine, exiting..."
+        return
+      fi
+      echo "Will stop default machine"
+    fi
+
+    read -p "Remove machine $machine [y|(n)]: " answer
+    if [ -z "$answer" ] || [ "$answer" != "y" ]
+    then
+      echo "No, all right, exiting with removing..."
       return
     fi
-    echo "Found machine $machine"
-  fi
 
-  echo "Initializing env for machine $machine ... "
-  eval "$(docker-machine env $machine)"
+    echo "Removing machine $machine"
+    docker-machine rm $machine
+  }
 
-  if [ $machine != $DOCKER_MACHINE_NAME ]; then
-    echo "Machine $machine does not exists"
-    echo "Please run docker-machine-ls to list existing machines, exiting ..."
-    return
-  fi
+  function docker-machine-stop() {
+    machine=${1:-default}
 
-  eval DOCKER_HOST_IP="$(echo $DOCKER_HOST | grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}')"
-  export DOCKER_HOST_IP
-  echo "Docker environnement initialized with machine: $machine"
-}
-
-function docker-machine-reset() {
-  machine=${1:-default}
-
-  if [ -z "$machine" ]; then
-    echo "No docker machine specified, looking for a machine currently running..."
-    eval machine="$(docker-machine ls --filter state=Running | grep Running |  cut -f 1 -d ' ')"
     if [ -z "$machine" ]; then
-      echo "No docker machine is currently running"
-      echo "You may "
-      echo "   docker-machine-create      : create a new docker machine"
-      echo "   docker-machine-start       : start an existing docker maxchine"
+      echo "No docker machine specified"
+      machine=$DOCKER_MACHINE_NAME
+      if [ -z "$machine" ]; then
+        echo "Did not find any default machine, exiting..."
+        return
+      fi
+      echo "Will stop default machine"
+    fi
+
+    echo "Stopping machine $machine"
+    docker-machine stop $machine
+  }
+
+  function docker-machine-start() {
+    machine=${1:-default}
+
+    if [ -z "$machine" ]; then
+      echo "No docker machine specified, please try again..."
+      docker-machine-ls
       return
     fi
-    echo "Found machine $machine"
-  fi
 
-  echo "Regenerating certs for machine $machine ... "
-  docker-machine regenerate-certs -f $machine
+    echo "Starting machine $machine ..."
+    docker-machine start $machine
+  }
 
-  echo "Initializing docker env..."
-  docker-machine-init $machine
-}
+  # Initialize the Windows Docker Toolbox environment
+  #   - autmatically detects the running docker machine
+  function docker-machine-init() {
+    machine=${1:-default}
+    if [ -z "$machine" ]; then
+      echo "No docker machine specified, looking for a machine currently running..."
+      eval machine="$(docker-machine ls --filter state=Running | grep Running |  cut -f 1 -d ' ')"
+      if [ -z "$machine" ]; then
+        echo "No docker machine is currently running"
+        echo "You may "
+        echo "   docker-machine-ls          : list existing machines"
+        echo "   docker-machine-create      : create a new docker machine"
+        echo "   docker-machine-start       : start an existing docker maxchine"
+        return
+      fi
+      echo "Found machine $machine"
+    fi
 
-function docker-machine-env() {
-  echo "DOCKER_MACHINE_NAME : $DOCKER_MACHINE_NAME"
-  echo "DOCKER_HOST_IP      : $DOCKER_HOST_IP"
-  echo "DOCKER_HOST         : $DOCKER_HOST"
-}
+    echo "Initializing env for machine $machine ... "
+    eval "$(docker-machine env $machine)"
 
-function docker-machine-ip() {
-  machine=${1:-default}
-  if [ -z "$machine" ]; then
-    eval machine="$(docker-machine active 2>/dev/null)"
-  fi
-  docker-machine ip $machine
-}
+    if [ $machine != $DOCKER_MACHINE_NAME ]; then
+      echo "Machine $machine does not exists"
+      echo "Please run docker-machine-ls to list existing machines, exiting ..."
+      return
+    fi
 
+    eval DOCKER_HOST_IP="$(echo $DOCKER_HOST | grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}')"
+    export DOCKER_HOST_IP
+    echo "Docker environnement initialized with machine: $machine"
+  }
+
+  function docker-machine-reset() {
+    machine=${1:-default}
+
+    if [ -z "$machine" ]; then
+      echo "No docker machine specified, looking for a machine currently running..."
+      eval machine="$(docker-machine ls --filter state=Running | grep Running |  cut -f 1 -d ' ')"
+      if [ -z "$machine" ]; then
+        echo "No docker machine is currently running"
+        echo "You may "
+        echo "   docker-machine-create      : create a new docker machine"
+        echo "   docker-machine-start       : start an existing docker maxchine"
+        return
+      fi
+      echo "Found machine $machine"
+    fi
+
+    echo "Regenerating certs for machine $machine ... "
+    docker-machine regenerate-certs -f $machine
+
+    echo "Initializing docker env..."
+    docker-machine-init $machine
+  }
+
+  function docker-machine-env() {
+    echo "DOCKER_MACHINE_NAME : $DOCKER_MACHINE_NAME"
+    echo "DOCKER_HOST_IP      : $DOCKER_HOST_IP"
+    echo "DOCKER_HOST         : $DOCKER_HOST"
+  }
+
+  function docker-machine-ip() {
+    machine=${1:-default}
+    if [ -z "$machine" ]; then
+      eval machine="$(docker-machine active 2>/dev/null)"
+    fi
+    docker-machine ip $machine
+  }
+fi
 
 # vim: set ft=bash:
