@@ -41,6 +41,14 @@ endif
 
 " NodeJs for Coc.nvim
 if executable('node')
+  if executable('nvm') && $NVM_BIN != ""
+    let g:coc_node_path = $NVM_BIN . '/node'
+  elseif executable('volta')
+    let g:coc_node_path = $VOLTA_BIN_NODE
+  endif
+endif
+
+if executable('node')
   let g:coc_node_path = $HOME . '/.nvm/bin/node'
 endif
 "}}}
