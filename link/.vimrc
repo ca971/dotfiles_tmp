@@ -19,32 +19,34 @@ else
 endif
 "}}}
 " Variables{{{
-" Python 2
-if executable('python2')
-  let g:python_host_prog = '/usr/bin/python2'
-endif
-
 " Python 3
-if executable('python3')
-  let g:python3_host_prog = $HOME . '/.pyenv/versions/python_3/bin/python'
+if executable('pyenv')
+  let g:python3_host_prog = system('pyenv which python3')
+  let g:python3_host_prog = system('pyenv which python2')
+else
+  let g:python3_host_prog = system('which python3')
+  let g:python3_host_prog = system('which python2')
 endif
 
 " Ruby
-if executable('ruby)
-  let g:ruby_host_prog = $HOME . '/.rbenv/versions/3.0.2/bin/ruby'
+if executable('rbenv')
+  let g:ruby_host_prog = system('rbenv which ruby')
+else
+  let g:ruby_host_prog = system('which ruby')
 endif
 
 " Perl
 if executable('perl')
-  let g:perl_host_prog = '/usr/bin/perl'
+  let g:perl_host_prog = system('which perl')
 endif
 
 " NodeJs for Coc.nvim
-if executable('node')
-  if executable('nvm') && $NVM_BIN != ""
-    let g:coc_node_path = $NVM_BIN . '/node'
+if executable('nvm')
+    let g:coc_node_path = system('nvm which node')
   elseif executable('volta')
-    let g:coc_node_path = $VOLTA_BIN_NODE
+    let g:coc_node_path = system('volta which node')
+  else
+    let g:coc_node_path = system('which node')
   endif
 endif
 "}}}
