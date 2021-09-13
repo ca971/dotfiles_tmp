@@ -132,6 +132,8 @@ cmds=(
   configure
   df
   diff
+  docker
+  docker-compose
   du
   env
   free
