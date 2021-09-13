@@ -128,88 +128,26 @@ fi
 # =============================================================================
 
 cmds=(
-  blkid
-  configure
-  df
-  diff
+  as
   docker
   docker-compose
-  du
-  env
-  free
-  fdisk
-  findmnt
-  make
-  gcc
   g++
-  id
-  ip
-  iptables
-  as
   gas
-  ld
-  lsof
-  lsblk
-  lspci
-  netstat
-  ping
-  traceroute
-  traceroute6
   head
-  tail
-  dig
-  mount
-  ps
-  mtr
+  ld
+  lsblk
+  make
+  ping6
   semanage
-  getsebool
-  ifconfig
+  tail
+  traceroute6
 )
 
-for cmd in "${cmds[@]}"; do
+for cmd in "${cmds[@]}" $( ls /usr/share/grc/ ); do
+  cmd="${cmd##*conf.}"
   type "${cmd}" >/dev/null 2>&1 && alias "${cmd}"="$( which grc ) --colour=auto ${cmd}"
 done
 unset cmd cmds
-
-
-#if command -v grc > /dev/null; then
-#  GRC="$(which grc)"
-#  alias colourify="$GRC -es --colour=auto"
-#  alias blkid='colourify blkid'
-#  alias configure='colourify ./configure'
-#  alias df='colourify df'
-#  alias diff='colourify diff'
-#  alias du='colourify du'
-#  alias env='colourify env'
-#  alias free='colourify free'
-#  alias fdisk='colourify fdisk'
-#  alias findmnt='colourify findmnt'
-#  alias make='colourify make'
-#  alias gcc='colourify gcc'
-#  alias g++='colourify g++'
-#  alias id='colourify id'
-#  alias ip='colourify ip'
-#  alias iptables='colourify iptables'
-#  alias as='colourify as'
-#  alias gas='colourify gas'
-#  alias ld='colourify ld'
-#  alias lsof='colourify lsof'
-#  alias lsblk='colourify lsblk'
-#  alias lspci='colourify lspci'
-#  alias netstat='colourify netstat'
-#  alias ping='colourify ping'
-#  alias traceroute='colourify traceroute'
-#  alias traceroute6='colourify traceroute6'
-#  alias head='colourify head'
-#  alias tail='colourify tail'
-#  alias dig='colourify dig'
-#  alias mount='colourify mount'
-#  alias ps='colourify ps'
-#  alias mtr='colourify mtr'
-#  alias semanage='colourify semanage'
-#  alias getsebool='colourify getsebool'
-#  alias ifconfig='colourify ifconfig'
-#fi
 
 # Update
 # =============================================================================
