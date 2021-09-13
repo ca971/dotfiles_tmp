@@ -11,6 +11,7 @@ brew tap buo/cask-upgrade
 brew tap neovim/neovim
 brew tap universal-ctags/universal-ctags
 brew tap homebrew/aliases
+brew tap tgotwig/linux-dust
 
 brew doctor
-brew install hello
+brew install dust
