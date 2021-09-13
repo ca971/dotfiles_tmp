@@ -7,6 +7,7 @@ fi;
 # Export DOTFILES
 # =============================================================================
 export DOTFILES=~/.dotfiles
+GRC_ALIASES=true
 
 
 # Source all files in "source"

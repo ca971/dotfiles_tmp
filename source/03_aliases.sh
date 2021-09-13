@@ -165,7 +165,7 @@ cmds=(
 )
 
 for cmd in "${cmds[@]}"; do
-  type "${cmd}" >/dev/null 2>&1 && echo alias "${cmd}"="$( which grc ) --colour=auto ${cmd}"
+  type "${cmd}" >/dev/null 2>&1 && alias "${cmd}"="$( which grc ) --colour=auto ${cmd}"
 done
 unset cmd cmds
 
