@@ -18,6 +18,23 @@ else
   let s:cache_dir = '~/.vim/cache/'
 endif
 "}}}
+" Global variables{{{
+let g:is_win     = has('win32')
+let g:is_nvim    = has('nvim-0.2') || (has('nvim') && exists('*jobwait') && !g:is_win)
+let g:is_vim     = has('patch-8.0.0039') && exists('*job_start')
+let g:is_gui     = has('gui_running') || has('gui_macvim') || has('gui_gtk2') || has('gui_vimr')
+let g:is_ruby    = has('ruby') && (v:version >= 703 || v:version == 702 && has('patch374'))
+let g:is_perl    = ''
+let g:is_lua     = ''
+let g:is_python  = has('python') || has('python3')
+let g:is_mac     = has('macunix') && (has('mac') && system('uname') =~? '^darwin')
+let g:is_linux   = has('linux') || (has('unix') && !has('macunix') && !has('win32unix'))
+let g:is_freebsd = (match(system("uname -s"), 'FreeBSD') >= 0)
+let g:is_unix    = !(has('win32') || has('win64'))
+
+" For Neovim 0.1.3 and 0.1.4
+let $NVIM_TUI_ENABLE_TRUE_COLOR = 1
+"}}}
 " Variables{{{
 " Python 3
 if executable('pyenv')
@@ -329,6 +346,67 @@ if !has('gui_running')
   endif
 endif
 syntax on
+"}}}
+" Vim-which-key{{{
+" https://github.com/liuchengxu/vim-which-key.git
+if isdirectory(expand('~/.vim/plugged/vim-which-key/'))
+  call which_key#register(',', "g:which_key_map")
+  nnoremap <silent> <leader> :<c-u>WhichKey ','<cr>
+  nnoremap <silent> <localleader> :<c-u>WhichKey '\'<cr>
+  let g:which_key_map = {
+    \ 'name' : '+main',
+    \ ','    : 'toggle/hlsearch',
+    \ ';'    : 'toggle/number',
+    \ 'b'    : 'Fold all buffers',
+    \ }
+
+  " which_key_map leader"
+  let g:which_key_map[','] = {
+    \ 'name': '+menu'
+    \ }
+
+  " Various"
+  let g:which_key_map['v'] = {
+    \ 'name': '+various',
+    \ 'p': 'spell',
+    \ }
+
+  " Buffers{{{
+  let g:which_key_map.b = {
+    \ 'name' : '+buffer'            ,
+    \ '1' : ['b1'                   , 'buffer 1']                      ,
+    \ '2' : ['b2'                   , 'buffer 2']                      ,
+    \ '3' : ['b3'                   , 'buffer 3']                      ,
+    \ '4' : ['b4'                   , 'buffer 4']                      ,
+    \ '5' : ['b5'                   , 'buffer 5']                      ,
+    \ '6' : ['b6'                   , 'buffer 6']                      ,
+    \ '7' : ['b7'                   , 'buffer 7']                      ,
+    \ '8' : ['b8'                   , 'buffer 8']                      ,
+    \ '9' : ['b9'                   , 'buffer 9']                      ,
+    \ 'b' : ['Buffers'              , 'fzf-buffer']                    ,
+    \ 'B' : ['ls<cr>:b<space>'      , 'buffers-list']                  ,
+    \ 'd' : ['bd'                   , 'delete-buffer']                 ,
+    \ 'D' : ['bw'                   , 'wipe-buffer']                   ,
+    \ 'C' : ['tabclose'             , 'close-single-tab']              ,
+    \ 'f' : ['bfirst'               , 'first-buffer']                  ,
+    \ 'h' : ['sp'                   , 'horizontally-split-buffer']     ,
+    \ 'l' : ['blast'                , 'last-buffer']                   ,
+    \ 'n' : ['bnext'                , 'next-buffer']                   ,
+    \ 'o' : ['bufdo normal! zM<cr>' , 'decrease-all-buffer-foldlevel'] ,
+    \ 'p' : ['bprevious'            , 'previous-buffer']               ,
+    \ 'Q' : ['qa'                   , 'exit-all-buffer']               ,
+    \ 's' : ['Startify'             , 'startify-buffer']               ,
+    \ 't' : ['tabedit'              , 'open-new-tab']                  ,
+    \ 'T' : ['tabs'                 , 'list-open-tabs']                ,
+    \ 'v' : ['vsp'                  , 'vertically-split-buffer']       ,
+    \ 'w' : ['w'                    , 'save-buffer']                   ,
+    \ 'W' : ['wa'                   , 'save-all-buffer']               ,
+    \ 'x' : ['bp\|bd #<cr>'         , 'switch-buffer']                 ,
+    \ '#' : ['b#'                   , 'recent-buffer']                 ,
+    \ '?' : ['b <c-d>'              , 'show-buffer-commands']          ,
+    \ }
+"}}}
+endif
 "}}}
 " Airline"{{{
 if isdirectory(expand('~/.vim/plugged/vim-airline/'))
@@ -712,67 +790,6 @@ if isdirectory(expand('~/.vim/plugged/nerdtree/'))
   let g:netrw_banner                = 0
   let g:netrw_liststyle             = 3
   let g:netrw_browse_split          = 4
-"}}}
-endif
-"}}}
-" Vim-which-key{{{
-" https://github.com/liuchengxu/vim-which-key.git
-if isdirectory(expand('~/.vim/plugged/vim-which-key/'))
-  call which_key#register(',', "g:which_key_map")
-  nnoremap <silent> <leader> :<c-u>WhichKey ','<cr>
-  nnoremap <silent> <localleader> :<c-u>WhichKey '\'<cr>
-  let g:which_key_map = {
-    \ 'name' : '+main',
-    \ ','    : 'toggle/hlsearch',
-    \ ';'    : 'toggle/number',
-    \ 'b'    : 'Fold all buffers',
-    \ }
-
-  " which_key_map leader"
-  let g:which_key_map[','] = {
-    \ 'name': '+menu'
-    \ }
-
-  " Various"
-  let g:which_key_map['v'] = {
-    \ 'name': '+various',
-    \ 'p': 'spell',
-    \ }
-
-  " Buffers{{{
-  let g:which_key_map.b = {
-    \ 'name' : '+buffer'            ,
-    \ '1' : ['b1'                   , 'buffer 1']                      ,
-    \ '2' : ['b2'                   , 'buffer 2']                      ,
-    \ '3' : ['b3'                   , 'buffer 3']                      ,
-    \ '4' : ['b4'                   , 'buffer 4']                      ,
-    \ '5' : ['b5'                   , 'buffer 5']                      ,
-    \ '6' : ['b6'                   , 'buffer 6']                      ,
-    \ '7' : ['b7'                   , 'buffer 7']                      ,
-    \ '8' : ['b8'                   , 'buffer 8']                      ,
-    \ '9' : ['b9'                   , 'buffer 9']                      ,
-    \ 'b' : ['Buffers'              , 'fzf-buffer']                    ,
-    \ 'B' : ['ls<cr>:b<space>'      , 'buffers-list']                  ,
-    \ 'd' : ['bd'                   , 'delete-buffer']                 ,
-    \ 'D' : ['bw'                   , 'wipe-buffer']                   ,
-    \ 'C' : ['tabclose'             , 'close-single-tab']              ,
-    \ 'f' : ['bfirst'               , 'first-buffer']                  ,
-    \ 'h' : ['sp'                   , 'horizontally-split-buffer']     ,
-    \ 'l' : ['blast'                , 'last-buffer']                   ,
-    \ 'n' : ['bnext'                , 'next-buffer']                   ,
-    \ 'o' : ['bufdo normal! zM<cr>' , 'decrease-all-buffer-foldlevel'] ,
-    \ 'p' : ['bprevious'            , 'previous-buffer']               ,
-    \ 'Q' : ['qa'                   , 'exit-all-buffer']               ,
-    \ 's' : ['Startify'             , 'startify-buffer']               ,
-    \ 't' : ['tabedit'              , 'open-new-tab']                  ,
-    \ 'T' : ['tabs'                 , 'list-open-tabs']                ,
-    \ 'v' : ['vsp'                  , 'vertically-split-buffer']       ,
-    \ 'w' : ['w'                    , 'save-buffer']                   ,
-    \ 'W' : ['wa'                   , 'save-all-buffer']               ,
-    \ 'x' : ['bp\|bd #<cr>'         , 'switch-buffer']                 ,
-    \ '#' : ['b#'                   , 'recent-buffer']                 ,
-    \ '?' : ['b <c-d>'              , 'show-buffer-commands']          ,
-    \ }
 "}}}
 endif
 "}}}
