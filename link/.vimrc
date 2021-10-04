@@ -229,10 +229,12 @@ vnoremap <space> zf
 " FILETYPES:
 " Vimrc"{{{
 augroup vimrc
-	au!
-  au BufWritePre * :%s/\s+$//e        " Trim trailing whitespaces
-	au BufRead,BufNewFile *{_,.}{,g}vim{,rc}* set foldmethod=marker foldlevel=0
+	autocmd!
+  autocmd BufWritePre * :%s/\s+$//e        " Trim trailing whitespaces
+	autocmd BufRead,BufNewFile *{_,.}{,g}vim{,rc}* set foldmethod=marker foldlevel=0
 	"au BufWritePost *{_,.}{,g}vim{,rc}* so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
+  autocmd FileType python,doctest set autoindent tabstop=4 shiftwidth=4 softtabstop=4 expandtab
+  autocmd Filetype yaml,yaml.ansible set cursorcolumn
 augroup END
 "}}}
 " COMMANDS:
@@ -895,8 +897,11 @@ nnoremap <leader>z <c-w>_ \| <c-w>\|
 nnoremap <silent> <leader>x :bp\|bd #<cr>
 "}}}
 " Behaviour{{{
-" Toggle no numbers → absolute → relative → relative with absolute on cursor line
+" https://answer-id.com/kk/70878192
+" Toggle all four settings, no numbers → absolute → relative → relative with absolute on cursor line
 nnoremap <silent> <leader>; :<c-u>exe 'set nu!' &nu ? 'rnu!' : ''<cr>
+" Toggle no numbers → absolute → relative → relative with absolute on cursor line
+"nnoremap <leader>; :let [&nu, &rnu] = [!&rnu, &nu+&rnu==1]<cr>
 
 " Save file and source it
 nnoremap <leader>w :<c-u>w!<cr>:so %<cr>:so $MYVIMRC<cr>

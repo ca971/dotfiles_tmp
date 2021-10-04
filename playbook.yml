@@ -1,0 +1,85 @@
+---
+- hosts: all
+  remote_user: vagrant
+  become: true
+  vars:
+    debian_packages:
+      - apt-utils
+      - autoconf
+      - bash-completion
+      - bat
+      - bind9
+      - bind9utils
+      - bison
+      - build-essential
+      - ca-certificates
+      - ccze
+      - coreutils
+      - curl
+      - dfc
+      - exa
+      - fasd
+      - file
+      - fzf
+      - git-core
+      - grc
+      - htop
+      - iproute2
+      - jq
+      - less
+      - libbz2-dev
+      - libffi-dev
+      - libgdbm-dev
+      - liblzma-dev
+      - libncurses5-dev
+      - libncursesw5-dev
+      - libnss3-dev
+      - libreadline-dev
+      - libsqlite3-dev
+      - libssl-dev
+      - libyaml-dev
+      - lsof
+      - make
+      - mercurial
+      - most
+      - ncdu
+      - neovim
+      - neofetch
+      - netcat
+      - net-tools
+      - nmap
+      - nmon
+      - nnn
+      - openssh-client
+      - peco
+      - perl
+      - procps
+      - progress
+      - python3-dev
+      - python3-pip
+      - ruby
+      - saidar
+      - sl
+      - slurm
+      - socat
+      - tcpdump
+      - tldr
+      - tmux
+      - trash-cli
+      - w3m
+      - zlib1g-dev
+      - zsh
+  roles:
+  tasks:
+    - name: Updating Apt Cache (Debian)
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+      when: ansible_os_family == "Debian"
+
+    - name: Installing Packages (Debian)
+      apt:
+        name: "{{ item }}"
+        state: "present"
+      loop: "{{ debian_packages }}"
+      when: ansible_os_family == "Debian"
